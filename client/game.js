@@ -53,6 +53,73 @@ function Game(){
 			this.snake.update();
 		}
 		input.isLock = false;
+	};
+
+
+
+	Game.prototype.render = function(){
+		//clear scene
+		this.context.fillStyle = this.backgroundColor;
+		this.context.fillRect(0, 0, this.canvasWidth, this.canvasHeight);
+
+
+		//dynamic render
+		this.snake.render();
+		this.apple.render();
+
+		switch(this.getStatus()){
+			
+			case this.STATUS.PLAY:
+			break;
+
+			case this.STATUS.NONE:
+			this.showMsg('Snake!', 'Press space to play');
+
+			
+			case this.STATUS.GAMEOVER:
+			this.showMsg('Game Over', 'Press space to play again', `Score: ${this.score}`);
+			break;
+
+			case this.STATUS.GAMEWIN:
+			this.showMsg('You win!', 'Press space to play again!', `Score: ${this.score}`);
+
+			case this.STATUS.PAUSE:
+			showMsg('Pause', 'Press space to continue');
+		}
+
+		Game.prototype.showMsg = function(header, action, addition){
+			//bg
+			this.context.beginPath();
+			this.context.fillStyle = 'rgba(0, 0, 0, 0.7)';
+			this.context.fillRect(0, 0, this.canvasWidth, this.canvasHeight);
+			this.context.closePath();
+
+			//top txt
+			this.context.beginPath();
+			this.context.font = 'normal normal 32px monospace';
+			this.context.fillStyle = '#aa0000';
+			this.context.textAlign = 'center';
+			this.context.fillText(action, this.canvasWidth / 2, this.canvasHeight / 2);
+			this.context.closePath();
+
+			//md txt
+			this.context.beginPath();
+			this.context.font = 'normal normal 14px monospace';
+			this.context.fillStyle = '#aa0000';
+			this.context.textAlign = 'center';
+			this.context.fillText(action, this.canvasWidth / 2, this.canvasHeight / 2 + 32);
+			this.context.closePath();
+
+			//btm add txt
+			if(addition !== undefined){
+				this.context.beginPath();
+				this.context.font = 'normal normal 14px monospace';
+				this.context.fillStyle = '#aa0000';
+				this.context.textAlign = 'center';
+				this.context.fillText(action, this.canvasWidth / 2, this.canvasHeight / 2 + 32);
+				this.context.closePath();
+			}
+		}
 	}
 };
 
