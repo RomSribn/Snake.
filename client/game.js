@@ -120,6 +120,60 @@ function Game(){
 				this.context.closePath();
 			}
 		}
+
+
+		Game.prototype.setStatus = function(value){
+			this.onStatusChange(value, this.status);
+			this.status = value;
+		};
+
+		Game.prototype.getStatus = function(){
+			return this.status;
+		};
+
+		Game.prototype.onStatusChange = function(newstatus, oldstatus){
+			if(newstatus === this.STATUS.PLAY && oldstatus !== this.STATUS.PAUSE){
+				this.apple.create();
+			}
+		};
+
+
+
+
+		Game.prototype.handleInput = function(evt){
+			if(input.isKey('SPACE')){
+				if(this.getStatus() === this.STATUS.GAMEOVER || this.getStatus() === this.STATUS.GAMEWIN){
+					this.reset();
+					this.setStatus(this.STATUS.PLAY);
+				}
+				if(this.getStatus() === this.STATUS.PAUSE){
+					this.setStatus(this.STATUS.PLAY);
+				}
+				if(this.getStatus() === this.STATUS.PLAY){
+					this.setStatus(this.STATUS.PAUSE);
+				}
+				if(this.getStatus() === this.STATUS.NONE){
+					this.setStatus(this.STATUS.PLAY);
+				}
+			}
+
+			if(this.getStatus() === this.STATUS.PLAY && !input.isLock){
+				input.isLock = true;
+
+				if((input.isKey('UP') || input.isKey('w')) && !this.snake.isRoute('DOWN')){
+					this.setRoute('UP');
+				}
+				if(input.isKey('DOWN') || !this.snake.isRoute('UP')){
+					this.setRoute('DOWN');
+				}
+				if(input.isKey('LEFT') || !this.snake.isRoute('RIGHT')){
+					this.setRoute('LEFT');
+				}
+				if(input.isKey('RIGHT') || !this.snake.isRoute('LEFT')){
+					this.setRoute('RIGHT');
+				}
+			}
+		}
 	}
 };
 
