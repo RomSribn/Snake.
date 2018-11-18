@@ -4,7 +4,7 @@ function Game(){
 	this.canvasWidth = 1280;
 	this.canvasHeight = 720;
 	this.backgroundColor = 'gray';
-	this.canvasBgc = '#000'
+	// this.canvasBgc = '#000'
 	this.snakeColor = 'green';
 	this.snakeHeadColor = 'red';
 	this.score = 0;
